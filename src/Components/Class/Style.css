@@ -1,0 +1,78 @@
+.containerALL{
+    display: flex;
+    justify-content: center;
+}
+
+.containerCRUD table{
+    background-color: #E1E1E1;
+    border-radius: 10px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.containerCRUD__data td{
+    background-color: #fff;
+    border-top: 5px solid #E1E1E1;
+    border-bottom: 5px solid #E1E1E1;
+}
+
+.containerCRUD input{
+    border: 1px solid #A3A3A3;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: blue;
+    color: #fff;
+    padding: 10px;
+}
+
+.containerCRUD td{
+    padding: 10px;
+}
+
+.containerAddButton{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#addButton{
+    background-color: #E1E1E1;
+    width: 110px;
+    border: none;
+    transition: all .3s;
+}
+
+#addButton:hover{
+    background-color: #1EDF55;
+}
+
+.buttons{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#deleteButton{
+    background: url('../../assets/TrashSVG/Trash.svg');
+    background-size: cover;
+    width: 24px; height: 28px;
+    transition: all 0.3s ease-out;
+}
+
+#deleteButton:hover{
+    background: url('../../assets/TrashSVG/TrashHover.svg');
+    background-size: cover;
+    width: 24px; height: 28px;
+}
+
+#updateButton{
+    background: url('../../assets/UpdateSVG/Update.svg');
+    background-size: cover;
+    width: 27px; height: 28px;
+    transition: all 0.3s ease-out;
+}
+
+#updateButton:hover{
+    background: url('../../assets/UpdateSVG/UpdateHover.svg');
+    background-size: cover;
+    width: 27px; height: 28px;
+}
