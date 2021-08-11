@@ -146,12 +146,10 @@ class CRUD extends React.Component {
                                     <td>{i.number}</td >
                                     <td>
                                         <button id="deleteButton" className="buttons" onClick={() => this.ButtonDelete(i._id)}>
-                                            {/* <img src={Trash} style={{ width: '20px', padding: '0' }} /> */}
                                         </button>
                                     </td>
                                     <td>
                                         <button id="updateButton" className="buttons" onClick={() => this.ButtonUpdate(i._id)}>
-                                            {/* <img src={Update} style={{ width: '20px', padding: '0' }}/> */}
                                         </button>
                                     </td>
                                 </tr>
