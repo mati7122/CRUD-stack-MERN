@@ -1,17 +1,23 @@
 import axios from 'axios';
 import React from 'react';
 import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Global from '../../Global';
 
 import './Style.css';
 
+const MySwal = withReactContent(Swal)
 const url = Global.url;
 
 class CRUD extends React.Component {
 
     state = {
         items: [],
-        status: null
+        status: null,
+        name: null,
+        email: null,
+        phone: null,
+        location: null
     }
 
     componentWillMount() {
@@ -32,7 +38,7 @@ class CRUD extends React.Component {
 
         (async () => {
 
-            const { value: formValues } = await Swal.fire({
+            const { value: formValues } = await MySwal.fire({
                 title: 'Agregar usuario',
                 confirmButtonText: 'Aceptar',
                 confirmButtonColor: 'green',
@@ -70,7 +76,8 @@ class CRUD extends React.Component {
     }
 
     ButtonDelete = (id) => { //METODO FINALIZADO CHECK
-        Swal.fire({
+
+        MySwal.fire({
             title: 'Advertencia',
             icon: 'info',
             text: 'Estás seguro que deseas borrar a este usuario?',
@@ -86,38 +93,49 @@ class CRUD extends React.Component {
             })
     }
 
-    ButtonUpdate = (idUpdate) => {
-        (async () => {
-            const { value: formUpdate } = await Swal.fire({
-                title: 'Actualizar',
-                html: `
-                    <input id="name-update" class="swal2-input" placeholder="Nombre"/>
-                    <input id="email-update" class="swal2-input" placeholder="Email"/>
-                    <input id="number-update" class="swal2-input" placeholder="Phone"/>
-                    <input id="location-update" class="swal2-input" placeholder="Location"/>          
-                `,
-                confirmButtonText: 'aceptar', confirmButtonColor: 'blue',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('name-update').value,
-                        document.getElementById('email-update').value,
-                        document.getElementById('number-update').value,
-                        document.getElementById('location-update').value
-                    ]
-                }
-            })
-
-            if (formUpdate) {
-                axios.post(url + 'update/' + idUpdate, {
-                    name: formUpdate[0],
-                    email: formUpdate[1],
-                    number: formUpdate[2],
-                    location: formUpdate[3]
+    ButtonUpdateLoad = (idUpdate) => { //METODO FINALIZADO CHECK
+        axios.get(url + 'get-one/' + idUpdate)
+            .then(res => {
+                this.setState({
+                    name: res.data.item.name,
+                    email: res.data.item.email,
+                    phone: res.data.item.number,
+                    location: res.data.item.location
                 })
-                document.location.reload()
+            })
+    }
+
+    ButtonUpdateShow = (idUpdate) => { //METODO FINALIZADO CHECK
+
+        const { value: formUpdate } = MySwal.fire({
+            title: 'Actualizar',
+            html: `
+                    <input id="name-update" class="swal2-input" placeholder="Nombre" value='${this.state.name}'/>
+                    <input id="email-update" class="swal2-input" placeholder="Email" value='${this.state.email}'/>
+                    <input id="number-update" class="swal2-input" placeholder="Phone" value='${this.state.phone}'/>
+                    <input id="location-update" class="swal2-input" placeholder="Location" value='${this.state.location}'/>          
+                `,
+            confirmButtonText: 'aceptar', confirmButtonColor: 'blue',
+            focusConfirm: false,
+            preConfirm: () => {
+                return [
+                    document.getElementById('name-update').value,
+                    document.getElementById('email-update').value,
+                    document.getElementById('number-update').value,
+                    document.getElementById('location-update').value
+                ]
             }
-        })()
+        })
+
+        if (formUpdate) {
+            axios.post(url + 'update/' + idUpdate, {
+                name: formUpdate[0],
+                email: formUpdate[1],
+                number: formUpdate[2],
+                location: formUpdate[3]
+            })
+            document.location.reload()
+        }
     }
 
     render() {
@@ -149,7 +167,7 @@ class CRUD extends React.Component {
                                         </button>
                                     </td>
                                     <td>
-                                        <button id="updateButton" className="buttons" onClick={() => this.ButtonUpdate(i._id)}>
+                                        <button id="updateButton" className="buttons" onMouseOver={() => this.ButtonUpdateLoad(i._id)} onClick={() => this.ButtonUpdateShow(i._id)}>
                                         </button>
                                     </td>
                                 </tr>
