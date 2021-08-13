@@ -107,35 +107,48 @@ class CRUD extends React.Component {
 
     ButtonUpdateShow = (idUpdate) => { //METODO FINALIZADO CHECK
 
-        const { value: formUpdate } = MySwal.fire({
-            title: 'Actualizar',
-            html: `
-                    <input id="name-update" class="swal2-input" placeholder="Nombre" value='${this.state.name}'/>
-                    <input id="email-update" class="swal2-input" placeholder="Email" value='${this.state.email}'/>
-                    <input id="number-update" class="swal2-input" placeholder="Phone" value='${this.state.phone}'/>
-                    <input id="location-update" class="swal2-input" placeholder="Location" value='${this.state.location}'/>          
-                `,
-            confirmButtonText: 'aceptar', confirmButtonColor: 'blue',
-            focusConfirm: false,
-            preConfirm: () => {
-                return [
-                    document.getElementById('name-update').value,
-                    document.getElementById('email-update').value,
-                    document.getElementById('number-update').value,
-                    document.getElementById('location-update').value
-                ]
-            }
-        })
+        (async () => {
+            const { value: formUpdate } = await MySwal.fire({
+                title: 'Actualizar',
+                html: `
+                        <input id="name-update" class="swal2-input" placeholder="Nombre" value='${this.state.name}'/>
+                        <input id="email-update" class="swal2-input" placeholder="Email" value='${this.state.email}'/>
+                        <input id="number-update" class="swal2-input" placeholder="Phone" value='${this.state.phone}'/>
+                        <input id="location-update" class="swal2-input" placeholder="Location" value='${this.state.location}'/>          
+                    `,
+                confirmButtonText: 'aceptar', confirmButtonColor: 'blue',
+                focusConfirm: false,
+                preConfirm: () => {
+                    return [
+                        document.getElementById('name-update').value,
+                        document.getElementById('email-update').value,
+                        document.getElementById('number-update').value,
+                        document.getElementById('location-update').value
+                    ]
 
-        if (formUpdate) {
-            axios.post(url + 'update/' + idUpdate, {
-                name: formUpdate[0],
-                email: formUpdate[1],
-                number: formUpdate[2],
-                location: formUpdate[3]
+                }
             })
-            document.location.reload()
-        }
+
+            if (formUpdate) {
+
+                this.setState({
+                    name: formUpdate[0],
+                    email: formUpdate[1],
+                    number: formUpdate[2],
+                    location: formUpdate[3]
+                })
+
+                axios.post(url + 'update/' + idUpdate, {
+                    name: this.state.name,
+                    email: this.state.email,
+                    number: this.state.phone,
+                    location: this.state.location
+                })
+                document.location.reload();
+            }
+
+        })()
+
     }
 
     render() {
