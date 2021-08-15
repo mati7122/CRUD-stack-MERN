@@ -1,7 +1,9 @@
-import axios from 'axios';
 import React from 'react';
+
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+
 import Global from '../../Global';
 
 import './Style.css';
@@ -21,8 +23,7 @@ class CRUD extends React.Component {
     }
 
     componentWillMount() {
-        document.title = 'CRUD MERN';
-        this.getAll();
+        this.getAll()
     }
 
     getAll() {
@@ -103,6 +104,7 @@ class CRUD extends React.Component {
                     location: res.data.item.location
                 })
             })
+
     }
 
     ButtonUpdateShow = (idUpdate) => { //METODO FINALIZADO CHECK
@@ -134,7 +136,7 @@ class CRUD extends React.Component {
                 this.setState({
                     name: formUpdate[0],
                     email: formUpdate[1],
-                    number: formUpdate[2],
+                    phone: formUpdate[2],
                     location: formUpdate[3]
                 })
 
@@ -176,12 +178,10 @@ class CRUD extends React.Component {
                                     <td>{i.email}</td>
                                     <td>{i.number}</td >
                                     <td>
-                                        <button id="deleteButton" className="buttons" onClick={() => this.ButtonDelete(i._id)}>
-                                        </button>
+                                        <button id="deleteButton" className="buttons" onClick={() => this.ButtonDelete(i._id)} />
                                     </td>
                                     <td>
-                                        <button id="updateButton" className="buttons" onMouseOver={() => this.ButtonUpdateLoad(i._id)} onClick={() => this.ButtonUpdateShow(i._id)}>
-                                        </button>
+                                        <button id="updateButton" className="buttons" onMouseOver={() => this.ButtonUpdateLoad(i._id)} onClick={() => this.ButtonUpdateShow(i._id)} />
                                     </td>
                                 </tr>
                             );
