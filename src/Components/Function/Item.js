@@ -1,4 +1,4 @@
-// import '../Class/Style.css';
+
 import './Style.css';
 
 function Item(props) {
