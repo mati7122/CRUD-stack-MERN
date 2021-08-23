@@ -64,6 +64,7 @@ async function ButtonAdd() {
             .catch(() => {
                 MySwal.fire({
                     toast: true,
+                    icon: 'error',
                     title: 'ERROR',
                     text: 'Provide valid data',
                     position: 'bottom-end',
