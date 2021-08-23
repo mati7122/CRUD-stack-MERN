@@ -1,5 +1,4 @@
 
-import React, { useEffect, useState } from "react";
 import useSWR, { mutate } from 'swr';
 import axios from "axios";
 import Swal from 'sweetalert2';
