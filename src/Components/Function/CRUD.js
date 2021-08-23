@@ -4,8 +4,11 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import Item from "./Item";
+import User from "./User";
+import Fields from "./Fields";
+import AddButton from './AddButton';
 
+//Estilos
 import './Style.css';
 
 import Global from "../../Global";
@@ -162,33 +165,36 @@ const CRUDfunction = () => {
     return (
         <div>
             <div className="container">
-                <div className="containerAddButton">
-                    <input id="addButton" type="button" value="Add user" onClick={() => ButtonAdd()} />
-                </div>
+                <AddButton Button={() => ButtonAdd()}/>
                 <div className="containerTable">
-                    <div className="containerCampos">
-                        <div><strong>ID</strong></div>
-                        <div><strong>NAME</strong></div>
-                        <div><strong>EMAIL</strong></div>
-                        <div><strong>PHONE</strong></div>
-                        <div><strong>UBICATION</strong></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                    <Fields/>
                     {error &&
-                        <h2>Error</h2>
+                        <div className="center">
+                            <h2>An error has ocurred, try later</h2>
+                        </div>
                     }
                     {!data &&
-                        <h2>Cargando...</h2>
+                        <div className="center">
+                            <h2>Loading...</h2>
+                        </div>
                     }
-                    <div className="test" id="scrollTest">
-                        {data &&
-
-                            data.map(i => {
-                                return <Item _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => ButtonDelete(i._id)} buttonUpdateShow={() => ButtonUpdateShow(i._id, i.name, i.email, i.number, i.location)} />
-                            })
-                        }
-                    </div>
+                    {data && data.length == 0 &&
+                        <div className="center">
+                            <div>
+                                <h2>No data to display :(</h2>
+                                <h2>Try add a user</h2>
+                            </div>
+                        </div>
+                    }
+                    {data && data.length >= 1 &&
+                        <div className="test">
+                            {
+                                data.map(i => {
+                                    return <User _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => ButtonDelete(i._id)} buttonUpdateShow={() => ButtonUpdateShow(i._id, i.name, i.email, i.number, i.location)} />
+                                })
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 
 import './Style.css';
 
-function Item(props) {
+function User(props) {
 
     return (
         <div className="containerDatos">
@@ -20,4 +20,4 @@ function Item(props) {
     );
 }
 
-export default Item;
+export default User;
