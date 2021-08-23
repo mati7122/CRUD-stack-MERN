@@ -178,7 +178,7 @@ const CRUDfunction = () => {
                             <h2>Loading...</h2>
                         </div>
                     }
-                    {data && data.length == 0 &&
+                    {data && data.length === 0 &&
                         <div className="center">
                             <div>
                                 <h2>No data to display :(</h2>
