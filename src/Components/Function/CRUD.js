@@ -1,101 +1,196 @@
+
 import React, { useEffect, useState } from "react";
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import axios from "axios";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-//buttons functions
-import { ButtonAdd, ButtonDelete, ButtonUpdateShow } from "./functionsCRUD";
+import Item from "./Item";
 
-import '../Class/Style.css';
+import './Style.css';
 
 import Global from "../../Global";
+
+const MySwal = withReactContent(Swal);
 
 const uri = Global.url;
 
 const fetcher = url => axios.get(uri + 'get-data').then(res => res.data.succes)
 
-const CRUDfunction = () => {
+async function ButtonAdd() {
+    const { value: formValues } = await MySwal.fire({
+        title: 'Add user',
+        confirmButtonText: 'Accept',
+        confirmButtonColor: 'green',
+        html:
+            `
+                <input id="swal-input1" class="swal2-input" placeholder="Name"/>
+                <input id="swal-input2" class="swal2-input" placeholder="Email"/>
+                <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
+                <input id="swal-input4" class="swal2-input" placeholder="Location"/>
+                `,
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+                document.getElementById('swal-input1').value,
+                document.getElementById('swal-input2').value,
+                document.getElementById('swal-input3').value,
+                document.getElementById('swal-input4').value
+            ]
+        }
+    })
 
-    const [name, setName] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [phone, setPhone] = useState(null)
-    const [location, setLocation] = useState(null)
-
-    function ButtonUpdateLoad(idUpdate) {
-        axios.get(uri + 'get-one/' + idUpdate)
-            .then(res => {
-                setName(res.data.item.name)
-                setEmail(res.data.item.email)
-                setPhone(res.data.item.number)
-                setLocation(res.data.item.location)
+    if (formValues) {
+        axios.post(uri + 'save', {
+            name: formValues[0],
+            email: formValues[1],
+            number: formValues[2],
+            location: formValues[3]
+        })
+            .then(() => {
+                setTimeout(() => { mutate('get-data') }, 500)
+                MySwal.fire({
+                    toast: true,
+                    title: 'SAVED',
+                    text: 'Data added successfully',
+                    position: 'bottom-end',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    confirmButtonColor: 'green'
+                })
+            })
+            .catch(() => {
+                MySwal.fire({
+                    toast: true,
+                    title: 'ERROR',
+                    text: 'Provide valid data',
+                    position: 'bottom-end',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    confirmButtonColor: 'green'
+                })
             })
     }
 
-    const { data, error } = useSWR('get-data', fetcher, { refreshInterval: 1000 })
+}
 
-    useEffect(() => {
-        console.log('Hola desde effect');
-    }, [])
+function ButtonDelete(id) {
+    MySwal.fire({
+        title: 'Warning',
+        icon: 'info',
+        text: 'Are you sure to want to delete this user?',
+        showDenyButton: true,
+        confirmButtonText: 'Accept', confirmButtonColor: 'green',
+        denyButtonText: 'Deny', denyButtonColor: 'red'
+    })
+        .then(result => {
+            if (result.isConfirmed) {
+                axios.delete(uri + 'delete/' + id)
+                    .then(
+                        () => {
+                            setTimeout(function () { mutate('get-data') }, 500)
+                            MySwal.fire({
+                                toast: true,
+                                title: 'SUCCESS',
+                                text: 'Data deleted successfully',
+                                position: 'bottom-end',
+                                confirmButtonColor: 'green',
+                                timer: 2000
+                            })
+                        }
+                    )
+            }
+        })
+}
+
+const CRUDfunction = () => {
+    const { data, error } = useSWR('get-data', fetcher)
+
+    function ButtonUpdateShow(idUpdate, name, email, phone, location) {
+
+        (async () => {
+
+            const { value: formUpdate } = await MySwal.fire({
+                title: 'Update',
+                html: `
+                        <input id="name-update" class="swal2-input" placeholder="Name" value='${name}'/>
+                        <input id="email-update" class="swal2-input" placeholder="Email" value='${email}'/>
+                        <input id="number-update" class="swal2-input" placeholder="Phone" value='${phone}'/>
+                        <input id="location-update" class="swal2-input" placeholder="Location" value='${location}'/>          
+                    `,
+                confirmButtonText: 'Accept', confirmButtonColor: 'blue',
+                focusConfirm: false,
+                preConfirm: () => {
+                    return [
+                        document.getElementById('name-update').value,
+                        document.getElementById('email-update').value,
+                        document.getElementById('number-update').value,
+                        document.getElementById('location-update').value
+                    ]
+
+                }
+            })
+
+            if (formUpdate) {
+
+                axios.post(uri + 'update/' + idUpdate, {
+                    name: formUpdate[0],
+                    email: formUpdate[1],
+                    phone: formUpdate[2],
+                    location: formUpdate[3]
+                })
+                    .then(
+                        () => {
+                            setTimeout(function () { mutate('get-data') }, 500)
+                            MySwal.fire({
+                                toast: true,
+                                title: 'Success',
+                                text: 'Data updated',
+                                position: 'bottom-end',
+                                confirmButtonColor: 'green',
+                                timer: 2000,
+                                timerProgressBar: true
+                            })
+                        }
+
+                    )
+            }
+
+        })()
+
+    }
 
     return (
-        <div className="containerALL">
-            <div className="containerCRUD">
+        <div>
+            <div className="container">
                 <div className="containerAddButton">
-                    <input id='addButton' type="button" value="Añadir usuario" onClick={() => ButtonAdd()} />
+                    <input id="addButton" type="button" value="Add user" onClick={() => ButtonAdd()} />
                 </div>
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Ubicación</th>
-                        <th>Email</th>
-                        <th>Télefono</th>
-                    </tr>
+                <div className="containerTable">
+                    <div className="containerCampos">
+                        <div><strong>ID</strong></div>
+                        <div><strong>NAME</strong></div>
+                        <div><strong>EMAIL</strong></div>
+                        <div><strong>PHONE</strong></div>
+                        <div><strong>UBICATION</strong></div>
+                        <div></div>
+                        <div></div>
+                    </div>
                     {error &&
-                        <h1>Error</h1>}
+                        <h2>Error</h2>
+                    }
                     {!data &&
-                        <h1>Cargando...</h1>
+                        <h2>Cargando...</h2>
                     }
-                    {data &&
+                    <div className="test" id="scrollTest">
+                        {data &&
 
-                        data.map(i => {
-                            return (
-                                <tr className="containerCRUD__data" onMouseOver={() => ButtonUpdateLoad(i._id)}>
-                                    <td>{i._id}</td>
-                                    <td>{i.name}</td>
-                                    <td>{i.location}</td>
-                                    <td>{i.email}</td>
-                                    <td>{i.number}</td>
-                                    <td>
-                                        <button id="deleteButton" className="buttons" onClick={() => ButtonDelete(i._id)} />
-                                    </td>
-                                    <td>
-                                        <button id="updateButton" className="buttons"  onClick={() => ButtonUpdateShow(i._id, name, email, phone, location)} />
-                                    </td>                     
-                                </tr>
-                            );
-                        })
-                    }
-                    {/* {items.length >= 1 &&
-                        items.map(i => {
-                            return (
-                                <tr className="containerCRUD__data">
-                                    <td>{i._id}</td>
-                                    <td>{i.name}</td>
-                                    <td>{i.location}</td>
-                                    <td>{i.email}</td>
-                                    <td>{i.number}</td>
-                                    <td>
-                                        <button id="deleteButton" className="buttons" />
-                                    </td>
-                                    <td>
-                                        <button id="updateButton" className="buttons" />
-                                    </td>
-                                </tr>
-
-                            );
-                        })
-                    } */}
-                </table>
+                            data.map(i => {
+                                return <Item _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => ButtonDelete(i._id)} buttonUpdateShow={() => ButtonUpdateShow(i._id, i.name, i.email, i.number, i.location)} />
+                            })
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     );
