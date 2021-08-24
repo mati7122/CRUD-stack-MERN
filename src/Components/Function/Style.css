@@ -41,7 +41,7 @@
 .containerAddButton{
     display: flex;
     margin-bottom: 10px;
-    margin-left: 7.2vw;
+    /* margin-left: 7.2vw; */
 }
 
 #addButton{
