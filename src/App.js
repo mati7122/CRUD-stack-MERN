@@ -1,6 +1,6 @@
 
 import './App.css';
-import { CRUD } from './Components/Function/CRUD';
+import { CRUD } from './Components/CRUD';
 
 function App() {
   return (

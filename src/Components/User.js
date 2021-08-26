@@ -1,5 +1,5 @@
 
-import './Style.css';
+// import './Style.css';
 
 function User(props) {
 

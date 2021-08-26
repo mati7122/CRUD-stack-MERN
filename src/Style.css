@@ -61,7 +61,7 @@
 /*DELETE BUTTON*/
 
 #deleteButton{
-    background: url('../../assets/TrashSVG/Trash.svg');
+    background: url('./assets/TrashSVG/Trash.svg');
     background-size: cover;
     width: 24px; height: 28px;
     transition: all 0.3s ease-out;
@@ -70,7 +70,7 @@
 }
 
 #deleteButton:hover{
-    background: url('../../assets/TrashSVG/TrashHover.svg');
+    background: url('./assets/TrashSVG/TrashHover.svg');
     background-size: cover;
     width: 24px; height: 28px;
 }
@@ -78,7 +78,7 @@
 /*UPDATE BUTTON*/
 
 #updateButton{
-    background: url('../../assets/UpdateSVG/Update.svg');
+    background: url('./assets/UpdateSVG/Update.svg');
     background-size: cover;
     width: 27px; height: 28px;
     transition: all 0.3s ease-out;
@@ -87,7 +87,7 @@
 }
 
 #updateButton:hover{
-    background: url('../../assets/UpdateSVG/UpdateHover.svg');
+    background: url('./assets/UpdateSVG/UpdateHover.svg');
     background-size: cover;
     width: 27px; height: 28px;
 }

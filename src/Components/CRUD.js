@@ -13,9 +13,9 @@ import { Error, Load, NoData } from './DisplayElse';
 import { Add } from './Functions';
 
 //Stylesheet
-import './Style.css';
+import '../Style.css';
 
-import Global from "../../Global";
+import Global from "../Global";
 
 const MySwal = withReactContent(Swal);
 
