@@ -4,7 +4,7 @@ import './Style.css';
 function User(props) {
 
     return (
-        <div className="containerDatos">
+        <div className="container__user">
             <div>{props._id}</div>
             <div>{props.name}</div>
             <div>{props.email}</div>
@@ -14,7 +14,7 @@ function User(props) {
                 <button id="deleteButton" className="buttons" onClick={props.buttonDelete} />
             </div>
             <div>
-                <button id="updateButton" className="buttons" onClick={props.buttonUpdateShow} />
+                <button id="updateButton" className="buttons" onClick={props.buttonUpdate} />
             </div>
         </div>
     );

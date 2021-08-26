@@ -1,14 +1,18 @@
-
 import useSWR, { mutate } from 'swr';
 import axios from "axios";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
+//Components
 import User from "./User";
 import Fields from "./Fields";
 import AddButton from './AddButton';
+import { Error, Load, NoData } from './DisplayElse';
 
-//Estilos
+//Functions
+import { Add } from './Functions';
+
+//Stylesheet
 import './Style.css';
 
 import Global from "../../Global";
@@ -19,65 +23,65 @@ const uri = Global.url;
 
 const fetcher = url => axios.get(uri + 'get-data').then(res => res.data.succes)
 
-async function ButtonAdd() {
-    const { value: formValues } = await MySwal.fire({
-        title: 'Add user',
-        confirmButtonText: 'Accept',
-        confirmButtonColor: 'green',
-        html:
-            `
-                <input id="swal-input1" class="swal2-input" placeholder="Name"/>
-                <input id="swal-input2" class="swal2-input" placeholder="Email"/>
-                <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
-                <input id="swal-input4" class="swal2-input" placeholder="Location"/>
-                `,
-        focusConfirm: false,
-        preConfirm: () => {
-            return [
-                document.getElementById('swal-input1').value,
-                document.getElementById('swal-input2').value,
-                document.getElementById('swal-input3').value,
-                document.getElementById('swal-input4').value
-            ]
-        }
-    })
+// async function Add() {
+//     const { value: formValues } = await MySwal.fire({
+//         title: 'Add user',
+//         confirmButtonText: 'Accept',
+//         confirmButtonColor: 'green',
+//         html:
+//             `
+//                 <input id="swal-input1" class="swal2-input" placeholder="Name"/>
+//                 <input id="swal-input2" class="swal2-input" placeholder="Email"/>
+//                 <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
+//                 <input id="swal-input4" class="swal2-input" placeholder="Location"/>
+//                 `,
+//         focusConfirm: false,
+//         preConfirm: () => {
+//             return [
+//                 document.getElementById('swal-input1').value,
+//                 document.getElementById('swal-input2').value,
+//                 document.getElementById('swal-input3').value,
+//                 document.getElementById('swal-input4').value
+//             ]
+//         }
+//     })
 
-    if (formValues) {
-        axios.post(uri + 'save', {
-            name: formValues[0],
-            email: formValues[1],
-            number: formValues[2],
-            location: formValues[3]
-        })
-            .then(() => {
-                setTimeout(() => { mutate('get-data') }, 500)
-                MySwal.fire({
-                    toast: true,
-                    title: 'SAVED',
-                    text: 'Data added successfully',
-                    position: 'bottom-end',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    confirmButtonColor: 'green'
-                })
-            })
-            .catch(() => {
-                MySwal.fire({
-                    toast: true,
-                    icon: 'error',
-                    title: 'ERROR',
-                    text: 'Provide valid data',
-                    position: 'bottom-end',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    confirmButtonColor: 'green'
-                })
-            })
-    }
+//     if (formValues) {
+//         axios.post(uri + 'save', {
+//             name: formValues[0],
+//             email: formValues[1],
+//             number: formValues[2],
+//             location: formValues[3]
+//         })
+//             .then(() => {
+//                 setTimeout(() => { mutate('get-data') }, 500)
+//                 MySwal.fire({
+//                     toast: true,
+//                     title: 'SAVED',
+//                     text: 'Data added successfully',
+//                     position: 'bottom-end',
+//                     timer: 2000,
+//                     timerProgressBar: true,
+//                     confirmButtonColor: 'green'
+//                 })
+//             })
+//             .catch(() => {
+//                 MySwal.fire({
+//                     toast: true,
+//                     icon: 'error',
+//                     title: 'ERROR',
+//                     text: 'Provide valid data',
+//                     position: 'bottom-end',
+//                     timer: 2000,
+//                     timerProgressBar: true,
+//                     confirmButtonColor: 'green'
+//                 })
+//             })
+//     }
 
-}
+// }
 
-function ButtonDelete(id) {
+function Delete(id) { //Delete user data of CRUD
     MySwal.fire({
         title: 'Warning',
         icon: 'info',
@@ -106,10 +110,10 @@ function ButtonDelete(id) {
         })
 }
 
-const CRUDfunction = () => {
+const CRUD = () => {
     const { data, error } = useSWR('get-data', fetcher)
 
-    function ButtonUpdateShow(idUpdate, name, email, phone, location) {
+    function Update(idUpdate, name, email, phone, location) { //Update crud data
 
         (async () => {
 
@@ -164,42 +168,35 @@ const CRUDfunction = () => {
     }
 
     return (
-        <div>
-            <div className="container">
-                <AddButton Button={() => ButtonAdd()}/>
-                <div className="containerTable">
-                    <Fields/>
-                    {error &&
-                        <div className="center">
-                            <h2>An error has ocurred, try later</h2>
-                        </div>
-                    }
-                    {!data &&
-                        <div className="center">
-                            <h2>Loading...</h2>
-                        </div>
-                    }
-                    {data && data.length === 0 &&
-                        <div className="center">
-                            <div>
-                                <h2>No data to display :(</h2>
-                                <h2>Try add a user</h2>
-                            </div>
-                        </div>
-                    }
-                    {data && data.length >= 1 &&
-                        <div className="test">
-                            {
-                                data.map(i => {
-                                    return <User _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => ButtonDelete(i._id)} buttonUpdateShow={() => ButtonUpdateShow(i._id, i.name, i.email, i.number, i.location)} />
-                                })
-                            }
-                        </div>
-                    }
-                </div>
+        <div className="container">
+            <AddButton Button={() => Add()} />
+            <div className="container__table">
+                <Fields />
+                {error &&
+                    <Error />
+                }
+                {!data && !error &&
+                    <Load />
+                }
+                {data && data.length === 0 &&
+                    <NoData />
+                }
+                {data && data.length >= 1 &&
+                    <div className="center__data">
+                        {
+                            data.map(i => {
+                                return <User _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => Delete(i._id)} buttonUpdate={() => Update(i._id, i.name, i.email, i.number, i.location)} />
+                            })
+                        }
+                    </div>
+                }
             </div>
         </div>
     );
 }
 
-export default CRUDfunction;
+// export default CRUD;
+export {
+    CRUD,
+    fetcher
+}

@@ -1,47 +1,46 @@
-.containerTable{
+/*TABLE*/
+
+.container__table{
     border-radius: 10px;
     width: fit-content;
-    margin: auto;
+    /* margin: auto; */
     overflow: hidden;
 }
 
-.containerCampos{
+/*FIELDS*/
+
+.container__fields{
     display: grid;
     grid-template-columns: 215px repeat(4, 200px) repeat(2, 63px);
     grid-template-rows: 30px;
 }
 
-.containerCampos div{
+.container__fields div{
     background-color: #E1E1E1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.containerDatos{
+/*USER ITEM*/
+
+.container__user{
     display: grid;
     grid-template-columns: 215px repeat(4, 200px) repeat(2, 55.5px);
 }
 
-.test{
-    background-color: #D1D1D1;
-    height: 250px;
-    overflow-y: scroll;
-}
-
-.containerDatos div{
+.container__user div{
     background-color: #fff;
     border-bottom: 1px solid #D1D1D1;
     text-align: center;
     padding: 8px;
 }
 
-/*BUTTON ADD*/
+/*ADD BUTTON*/
 
-.containerAddButton{
+.container__button{
     display: flex;
     margin-bottom: 10px;
-    margin-left: 7.2vw;
 }
 
 #addButton{
@@ -60,6 +59,7 @@
 }
 
 /*DELETE BUTTON*/
+
 #deleteButton{
     background: url('../../assets/TrashSVG/Trash.svg');
     background-size: cover;
@@ -74,6 +74,8 @@
     background-size: cover;
     width: 24px; height: 28px;
 }
+
+/*UPDATE BUTTON*/
 
 #updateButton{
     background: url('../../assets/UpdateSVG/Update.svg');
@@ -97,5 +99,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.center__data{
+    background-color: #D1D1D1;
+    height: 250px;
+    overflow-y: scroll;
 }
 

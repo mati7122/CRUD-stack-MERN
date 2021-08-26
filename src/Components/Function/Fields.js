@@ -1,9 +1,7 @@
 
-import './Style.css';
-
 function Fields() {
     return (
-        <div className="containerCampos">
+        <div className="container__fields">
             <div><strong>ID</strong></div>
             <div><strong>NAME</strong></div>
             <div><strong>EMAIL</strong></div>

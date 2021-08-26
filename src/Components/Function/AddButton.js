@@ -1,9 +1,7 @@
 
-import './Style.css';
-
 function AddButton(props) {
     return (
-        <div className="containerAddButton">
+        <div className="container__button">
             <input id="addButton" type="button" value="Add user" onClick={props.Button} />
         </div>
     );
