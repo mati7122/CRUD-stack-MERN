@@ -1,12 +1,25 @@
 .App {
+  margin: auto 0;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   text-align: center;
 }
 
-.App-logo {
+.App__title{
+  display: flex;
+}
+
+.App__title h1{
+  margin-right: 20px;
+}
+
+.App__title img{
+  width: 50px;
+  margin-right: 15px;
+}
+
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -39,5 +52,5 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
 

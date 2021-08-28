@@ -1,4 +1,3 @@
-// import { fetcher } from './CRUD';
 import { mutate } from 'swr';
 import axios from "axios";
 import Swal from 'sweetalert2';
@@ -20,7 +19,7 @@ async function Add() { //Add user data to CRUD
                 <input id="swal-input1" class="swal2-input" placeholder="Name"/>
                 <input id="swal-input2" class="swal2-input" placeholder="Email"/>
                 <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
-                <input id="swal-input4" class="swal2-input" placeholder="Location"/>
+                <input id="swal-input4" class="swal2-input" placeholder="Ubication"/>
                 `,
         focusConfirm: false,
         preConfirm: () => {
@@ -68,6 +67,91 @@ async function Add() { //Add user data to CRUD
 
 }
 
+function Delete(id) { //Delete user data CRUD
+    MySwal.fire({
+        title: 'Warning',
+        icon: 'info',
+        text: 'Are you sure to want to delete this user?',
+        showDenyButton: true,
+        confirmButtonText: 'Accept', confirmButtonColor: 'green',
+        denyButtonText: 'Deny', denyButtonColor: 'red'
+    })
+        .then(result => {
+            if (result.isConfirmed) {
+                axios.delete(uri + 'delete/' + id)
+                    .then(
+                        () => {
+                            setTimeout(function () { mutate('get-data') }, 500)
+                            MySwal.fire({
+                                toast: true,
+                                title: 'SUCCESS',
+                                text: 'Data deleted successfully',
+                                position: 'bottom-end',
+                                confirmButtonColor: 'green',
+                                timer: 2000
+                            })
+                        }
+                    )
+            }
+        })
+}
+
+function Update(idUpdate, name, email, phone, location) { //Update user CRUD data
+
+    (async () => {
+
+        const { value: formUpdate } = await MySwal.fire({
+            title: 'Update',
+            html: `
+                    <input id="name-update" class="swal2-input" placeholder="Name" value='${name}'/>
+                    <input id="email-update" class="swal2-input" placeholder="Email" value='${email}'/>
+                    <input id="number-update" class="swal2-input" placeholder="Phone" value='${phone}'/>
+                    <input id="location-update" class="swal2-input" placeholder="Location" value='${location}'/>          
+                `,
+            confirmButtonText: 'Accept', confirmButtonColor: 'blue',
+            focusConfirm: false,
+            preConfirm: () => {
+                return [
+                    document.getElementById('name-update').value,
+                    document.getElementById('email-update').value,
+                    document.getElementById('number-update').value,
+                    document.getElementById('location-update').value
+                ]
+
+            }
+        })
+
+        if (formUpdate) {
+
+            axios.post(uri + 'update/' + idUpdate, {
+                name: formUpdate[0],
+                email: formUpdate[1],
+                phone: formUpdate[2],
+                location: formUpdate[3]
+            })
+                .then(
+                    () => {
+                        setTimeout(function () { mutate('get-data') }, 500)
+                        MySwal.fire({
+                            toast: true,
+                            title: 'Success',
+                            text: 'Data updated',
+                            position: 'bottom-end',
+                            confirmButtonColor: 'green',
+                            timer: 2000,
+                            timerProgressBar: true
+                        })
+                    }
+
+                )
+        }
+
+    })()
+
+}
+
 export {
-    Add
+    Add,
+    Delete,
+    Update
 }
