@@ -3,7 +3,6 @@
 .container__table{
     border-radius: 10px;
     width: fit-content;
-    /* margin: auto; */
     overflow: hidden;
 }
 
@@ -11,8 +10,10 @@
 
 .container__fields{
     display: grid;
-    grid-template-columns: 215px repeat(4, 200px) repeat(2, 63px);
-    grid-template-rows: 30px;
+    grid-template-columns: 16vw repeat(4, 16vw) repeat(2, 57.6px);
+    /* grid-template-rows: 30px; */
+    grid-template-rows: 3.5vh;
+    font-size: 1.2vw;
 }
 
 .container__fields div{
@@ -26,14 +27,18 @@
 
 .container__user{
     display: grid;
-    grid-template-columns: 215px repeat(4, 200px) repeat(2, 55.5px);
+    grid-template-columns: 16vw repeat(4, 16vw) repeat(2, 50px);
+    font-size: 1.2vw;
+    /* font-weight: 100; */
 }
 
 .container__user div{
     background-color: #fff;
     border-bottom: 1px solid #D1D1D1;
-    text-align: center;
-    padding: 8px;
+    padding: .5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /*ADD BUTTON*/
@@ -107,3 +112,14 @@
     overflow-y: scroll;
 }
 
+@media (max-width: 800px) {
+
+    .container__fields{
+        display: none;
+    }
+
+    .container__table{
+        width: 85vw;
+        /* overflow-x: scroll; */
+    }
+}

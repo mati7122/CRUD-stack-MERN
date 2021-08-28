@@ -26,18 +26,6 @@ function NoData() {
     );
 }
 
-// function Data() {
-//     return (
-//         <div className="center__data">
-//             {
-//                 data.map(i => {
-//                     return <User _id={i._id} name={i.name} location={i.location} email={i.email} number={i.number} buttonDelete={() => Delete(i._id)} buttonUpdateShow={() => Update(i._id, i.name, i.email, i.number, i.location)} />
-//                 })
-//             }
-//         </div>
-//     );
-// }
-
 export {
     Error,
     Load,

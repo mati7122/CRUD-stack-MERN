@@ -1,13 +1,25 @@
 .App {
-  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.App__content{
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  width: fit-content;
+}
+
+.App__content h2{
+  display: inline;
 }
 
 .App__title{
   display: flex;
+  text-align: center;
+  justify-content: center;
 }
 
 .App__title h1{
@@ -15,9 +27,21 @@
 }
 
 .App__title img{
-  width: 50px;
+  width: 5vw;
   margin-right: 15px;
 }
+
+@media (max-width: 800px) {
+
+  .App__title{
+    flex-direction: column;
+  }
+
+  .App__title img{
+    width: 10vw;
+  }
+}
+
 
 /* .App-logo {
   height: 40vmin;

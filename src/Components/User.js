@@ -1,6 +1,4 @@
 
-// import './Style.css';
-
 function User(props) {
 
     return (
