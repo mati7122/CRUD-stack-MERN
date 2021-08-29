@@ -11,7 +11,7 @@
 .container__fields{
     display: grid;
     grid-template-columns: 16vw repeat(4, 16vw) repeat(2, 57.6px);
-    /* grid-template-rows: 30px; */
+    /* grid-template-columns: auto repeat(4, auto) repeat(2, auto); */
     grid-template-rows: 3.5vh;
     font-size: 1.2vw;
 }
@@ -28,8 +28,8 @@
 .container__user{
     display: grid;
     grid-template-columns: 16vw repeat(4, 16vw) repeat(2, 50px);
+    /* grid-template-columns: auto repeat(4, auto) repeat(2, auto); */
     font-size: 1.2vw;
-    /* font-weight: 100; */
 }
 
 .container__user div{
@@ -120,6 +120,5 @@
 
     .container__table{
         width: 85vw;
-        /* overflow-x: scroll; */
     }
 }
