@@ -1,3 +1,4 @@
+// import { useForm } from 'react-hook-form';
 import { mutate } from 'swr';
 import axios from "axios";
 import Swal from 'sweetalert2';
@@ -9,18 +10,31 @@ const uri = Global.url;
 
 const MySwal = withReactContent(Swal);
 
+
 async function Add() { //Add user data to CRUD
+    // const { register, handleSubmit, formState: { errors } } = useForm();
+
+    // const onSubmit = data => console.log(data);
+
     const { value: formValues } = await MySwal.fire({
         title: 'Add user',
         confirmButtonText: 'Accept',
         confirmButtonColor: 'green',
+        // html:
+        //     `
+        //         <input id="swal-input1" class="swal2-input" placeholder="Name"/>
+        //         <input id="swal-input2" class="swal2-input" placeholder="Email"/>
+        //         <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
+        //         <input id="swal-input4" class="swal2-input" placeholder="Ubication"/>
+        //         `,
         html:
-            `
-                <input id="swal-input1" class="swal2-input" placeholder="Name"/>
-                <input id="swal-input2" class="swal2-input" placeholder="Email"/>
-                <input id="swal-input3" class="swal2-input" placeholder="Phone"/>
-                <input id="swal-input4" class="swal2-input" placeholder="Ubication"/>
-                `,
+            <form>
+                <input id="swal-input1" className="swal2-input" placeholder="Name" />
+                <input id="swal-input2" className="swal2-input" placeholder="Email" />
+                <input id="swal-input3" className="swal2-input" placeholder="Phone" />
+                <input id="swal-input4" className="swal2-input" placeholder="Ubicaton" />
+            </form>
+        ,
         focusConfirm: false,
         preConfirm: () => {
             return [
@@ -126,7 +140,7 @@ function Update(idUpdate, name, email, phone, location) { //Update user CRUD dat
             axios.post(uri + 'update/' + idUpdate, {
                 name: formUpdate[0],
                 email: formUpdate[1],
-                phone: formUpdate[2],
+                number: formUpdate[2],
                 location: formUpdate[3]
             })
                 .then(
@@ -144,6 +158,20 @@ function Update(idUpdate, name, email, phone, location) { //Update user CRUD dat
                     }
 
                 )
+
+                .catch(
+                    () => {
+                    MySwal.fire({
+                        toast: true,
+                        icon: 'error',
+                        title: 'ERROR',
+                        text: 'Provide valid data',
+                        position: 'bottom-end',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        confirmButtonColor: 'green'
+                    })
+                })
         }
 
     })()
